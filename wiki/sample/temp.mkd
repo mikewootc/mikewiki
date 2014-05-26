@@ -1,0 +1,105 @@
+<!---title:-->
+<!---keywords:-->
+<!---date:2013.06.03-->
+
+
+
+#UI简介
+
+一个Android程序由下面这些部分组成。
+
+* **Activity**：代表了Android程序的展现层，比如用户看到的界面。一个Android程序会有一些个Activities，在程序运行过程中也会切换。
+* **Views**：一个Activities的用户界面是继承自android.view.View。views的布局通过android.view.ViewGroups来管理。
+* **Services**：不需要UI展现的后台任务。可以通过android的提醒框架给用户提示。
+* **Content Provider**：为程序提供数据，通过Content Provider你的程序可以与别的程序共享数据。Android的SQLite数据库可以看做一个Content Provider。
+* **Intents**：是一个异步的消息系统，可以从别的系统或服务获取数据。程序可以直接调用一个服务或者activity，也可以请求android系统。
+* **Broadcast Receiver**：接受系统消息或者隐含的intent，可以根据系统的改变做出反应。一个程序可以注册成为某些事件的Broadcast Receiver，当事件发生时，程序就执行。
+
+* Android的UI界面是由一个个的Activity构成, 每个Activity相当于我们从手机上看到的一个页面.
+* 每个Activity是通过一系列名叫View或ViewGroup的类的对象来构成的. 一个View对应的就是控件, 如一个按钮, 一个文本框等. ViewGroup顾名思义就是一组View(也可以是子ViewGroup). 图示如下:
+
+![xxx](xxx)
+
+Android对这些View/ViewGroup的管理方式为:
+* 通过XML来描述的属性: 大小, 位置, 排列规则等等.
+* 通过JAVA中的类函数来处理事件的相应: 按下button等.
+
+#Activity
+
+当用eclipse创建一个最简单的"BlankActivity"的Project时, 会默认的创建一个Main Activity. 它的主要代码:
+* 其XML描述在`res/layout/activity_main.xml`中.
+* 其JAVA代码在`PROJECT_DIR/src/com/mikewootc/replayer/MainActivity.java`中, 其中`com/mikewootc/replayer`对应于创建工程时候起的软件包的名字: `com.mikewootc.replayer`.
+
+#button
+
+XML描述:
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_send"
+        android:onClick="sendMessage"
+    />
+
+说明:
+* onClick="sendMessage": 表示button按下的处理函数, 需要在相应的JAVA代码中定义, 其原型为:
+<pre  class="brush: xml">
+    import android.view.View;
+    public void sendMessage(View view) {
+            // Do something in response to button
+    }
+</pre>
+
+
+
+#EditText
+
+XML描述:
+
+    <EditText
+        android:id="@+id/edit_message"
+        android:hint="Enter a message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+    />
+
+说明:
+* `@+id/edit_message`: `@`表示引用某以资源; `+`表示首次使用(即定义这个资源); `id`表示资源类型, `edit_message`表示资源名.
+* `android:hint="Enter a message"`: 用于在输入文字显示的提示字符串, 当用户真正输入文字时候, 会用输入的文字代替该字符串. 一般写成: `android:hint="@string/edit_message"`, 然后把程序中所有的string都统一到一个地方: res/values/strings.xml中. 这样有利于统一管理, 以及语言的本地化.
+* `android:layout_height="wrap_content"`: 表示"仅仅能包住它的内容", 也就是说框中的字符串占多大地方, 这个框就多大.
+* 更多细节参考[developer.android.com](http://developer.android.com/reference/android/widget/EditText.html)
+* `layout_weight="1"`: 表示在布局(Layout)中其大小所占的权重.
+
+
+#Linear Layout
+
+Linear Layout是ViewGroup的一个子类, 意为线性排布. 其XML描述为:
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+    </LinearLayout>
+
+说明:
+* `match_parent`: 表示充满父级View/ViewGroup的区域.
+* `orientation="horizontal"`: 表示水平方向排列.
+
+#Intent
+
+Intent是一个JAVA对象, 是用于在两个独立的组件(如两个Activity)之间通信的接口, 意为应用程序"意欲做某事". Intent可以做很多事, 但是用的最多的是触发另一个Activity.
+
+示例代码:
+
+<pre  class="brush: java">
+    Intent intent     = new Intent(this, DisplayMessageActivity.class);
+    EditText editText = (EditText) findViewById(R.id.edit_message);
+    String message    = editText.getText().toString();
+    intent.putExtra(EXTRA_MESSAGE, message);
+    startActivity(intent);
+</pre>
+
+
+<!-- vim:set tw=0:-->

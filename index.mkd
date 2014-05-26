@@ -1,0 +1,20 @@
+<!---title:MikeWiki sample page-->
+<!---keywords:markdown, pandoc, makefile, git(github), python-->
+<!---date:2013.06.28; modification:2014.05.26-->
+
+#本站简介
+
+页面主要由markdown语言编辑并由作者自己写的makefile+pandoc生成.
+
+如要了解本站生成方法的细节, 请参考: [用markdown + pandoc + makefile + git(github)搭建免费个人wiki](http://www.mikewootc.com/wiki/tool/sitebuild/mikewiki.html)
+
+
+#Sample
+
+##Sample pages
+
+
+[My Sample](wiki/sample/temp.html)
+
+
+<!-- vim:set tw=0:-->

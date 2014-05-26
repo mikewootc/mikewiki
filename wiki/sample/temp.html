@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<link rel="stylesheet" href="/style.css" type="text/css" />
+
+
+
+
+</head>
+
+
+<body>
+<div id="wrapper">
+
+<div id="header">
+    <p class="header_titleline">MikeWiki sample header</p>
+    <p class="header_subline"><a href="/index.html">Home page</a></p>
+</div>
+
+<p>date: 2013.06.03</p>
+
+ <!--if(title)-->
+
+<p>目录:</p>
+<div id="TOC">
+<ul>
+<li><a href="#ui简介"><span class="toc-section-number">1</span> UI简介</a></li>
+<li><a href="#activity"><span class="toc-section-number">2</span> Activity</a></li>
+<li><a href="#button"><span class="toc-section-number">3</span> button</a></li>
+<li><a href="#edittext"><span class="toc-section-number">4</span> EditText</a></li>
+<li><a href="#linear-layout"><span class="toc-section-number">5</span> Linear Layout</a></li>
+<li><a href="#intent"><span class="toc-section-number">6</span> Intent</a></li>
+</ul>
+</div>
+ <!--if(toc)-->
+
+<!---title:-->
+<!---keywords:-->
+<!---date:2013.06.03-->
+
+
+
+<h1 id="ui简介"><span class="header-section-number">1</span> UI简介</h1>
+<p>一个Android程序由下面这些部分组成。</p>
+<ul>
+<li><strong>Activity</strong>：代表了Android程序的展现层，比如用户看到的界面。一个Android程序会有一些个Activities，在程序运行过程中也会切换。</li>
+<li><strong>Views</strong>：一个Activities的用户界面是继承自android.view.View。views的布局通过android.view.ViewGroups来管理。</li>
+<li><strong>Services</strong>：不需要UI展现的后台任务。可以通过android的提醒框架给用户提示。</li>
+<li><strong>Content Provider</strong>：为程序提供数据，通过Content Provider你的程序可以与别的程序共享数据。Android的SQLite数据库可以看做一个Content Provider。</li>
+<li><strong>Intents</strong>：是一个异步的消息系统，可以从别的系统或服务获取数据。程序可以直接调用一个服务或者activity，也可以请求android系统。</li>
+<li><p><strong>Broadcast Receiver</strong>：接受系统消息或者隐含的intent，可以根据系统的改变做出反应。一个程序可以注册成为某些事件的Broadcast Receiver，当事件发生时，程序就执行。</p></li>
+<li>Android的UI界面是由一个个的Activity构成, 每个Activity相当于我们从手机上看到的一个页面.</li>
+<li><p>每个Activity是通过一系列名叫View或ViewGroup的类的对象来构成的. 一个View对应的就是控件, 如一个按钮, 一个文本框等. ViewGroup顾名思义就是一组View(也可以是子ViewGroup). 图示如下:</p></li>
+</ul>
+<div class="figure">
+<img src="xxx" alt="xxx" /><p class="caption">xxx</p>
+</div>
+<p>Android对这些View/ViewGroup的管理方式为: * 通过XML来描述的属性: 大小, 位置, 排列规则等等. * 通过JAVA中的类函数来处理事件的相应: 按下button等.</p>
+<h1 id="activity"><span class="header-section-number">2</span> Activity</h1>
+<p>当用eclipse创建一个最简单的&quot;BlankActivity&quot;的Project时, 会默认的创建一个Main Activity. 它的主要代码: * 其XML描述在<code>res/layout/activity_main.xml</code>中. * 其JAVA代码在<code>PROJECT_DIR/src/com/mikewootc/replayer/MainActivity.java</code>中, 其中<code>com/mikewootc/replayer</code>对应于创建工程时候起的软件包的名字: <code>com.mikewootc.replayer</code>.</p>
+<h1 id="button"><span class="header-section-number">3</span> button</h1>
+<p>XML描述:</p>
+<pre><code>&lt;Button
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;@string/button_send&quot;
+    android:onClick=&quot;sendMessage&quot;
+/&gt;</code></pre>
+说明: * onClick=&quot;sendMessage&quot;: 表示button按下的处理函数, 需要在相应的JAVA代码中定义, 其原型为:
+<pre  class="brush: xml">
+    import android.view.View;
+    public void sendMessage(View view) {
+            // Do something in response to button
+    }
+</pre>
+
+
+
+<h1 id="edittext"><span class="header-section-number">4</span> EditText</h1>
+<p>XML描述:</p>
+<pre><code>&lt;EditText
+    android:id=&quot;@+id/edit_message&quot;
+    android:hint=&quot;Enter a message&quot;
+    android:layout_width=&quot;0dp&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_weight=&quot;1&quot;
+/&gt;</code></pre>
+<p>说明: * <code>@+id/edit_message</code>: <code>@</code>表示引用某以资源; <code>+</code>表示首次使用(即定义这个资源); <code>id</code>表示资源类型, <code>edit_message</code>表示资源名. * <code>android:hint=&quot;Enter a message&quot;</code>: 用于在输入文字显示的提示字符串, 当用户真正输入文字时候, 会用输入的文字代替该字符串. 一般写成: <code>android:hint=&quot;@string/edit_message&quot;</code>, 然后把程序中所有的string都统一到一个地方: res/values/strings.xml中. 这样有利于统一管理, 以及语言的本地化. * <code>android:layout_height=&quot;wrap_content&quot;</code>: 表示&quot;仅仅能包住它的内容&quot;, 也就是说框中的字符串占多大地方, 这个框就多大. * 更多细节参考<a href="http://developer.android.com/reference/android/widget/EditText.html">developer.android.com</a> * <code>layout_weight=&quot;1&quot;</code>: 表示在布局(Layout)中其大小所占的权重.</p>
+<h1 id="linear-layout"><span class="header-section-number">5</span> Linear Layout</h1>
+<p>Linear Layout是ViewGroup的一个子类, 意为线性排布. 其XML描述为:</p>
+<pre><code>&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+    xmlns:tools=&quot;http://schemas.android.com/tools&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;match_parent&quot;
+    android:orientation=&quot;horizontal&quot; &gt;
+&lt;/LinearLayout&gt;</code></pre>
+<p>说明: * <code>match_parent</code>: 表示充满父级View/ViewGroup的区域. * <code>orientation=&quot;horizontal&quot;</code>: 表示水平方向排列.</p>
+<h1 id="intent"><span class="header-section-number">6</span> Intent</h1>
+<p>Intent是一个JAVA对象, 是用于在两个独立的组件(如两个Activity)之间通信的接口, 意为应用程序&quot;意欲做某事&quot;. Intent可以做很多事, 但是用的最多的是触发另一个Activity.</p>
+<p>示例代码:</p>
+<pre  class="brush: java">
+    Intent intent     = new Intent(this, DisplayMessageActivity.class);
+    EditText editText = (EditText) findViewById(R.id.edit_message);
+    String message    = editText.getText().toString();
+    intent.putExtra(EXTRA_MESSAGE, message);
+    startActivity(intent);
+</pre>
+
+
+<!-- vim:set tw=0:-->
+
+
+<div id="footer">
+    <p class="footer_titleline">Human knowledge belongs to the world</p>
+</div>
+</div> <!--wrapper-->
+
+<!--SyntaxHighlighter-->
+<script type="text/javascript" src="/scripts/shCore.js"></script>
+<script type="text/javascript" src="/scripts/shBrushBash.js"></script>
+<script type="text/javascript" src="/scripts/shBrushPython.js"></script>
+<script type="text/javascript" src="/scripts/shBrushCpp.js"></script>
+<script type="text/javascript" src="/scripts/shBrushJScript.js"></script>
+<script type="text/javascript" src="/scripts/shBrushJava.js"></script>
+<script type="text/javascript" src="/scripts/shBrushXml.js"></script>
+<link type="text/css" rel="stylesheet" href="/styles/shCoreFadeToGrey.css"/>
+<script type="text/javascript">SyntaxHighlighter.all();</script>
+
+</body>
+</html>
